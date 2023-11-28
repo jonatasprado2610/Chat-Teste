@@ -1,20 +1,16 @@
-const {WebSocketServer} = require("ws")
+const { WebSocketServer } = require("ws")
 const dotenv = require("dotenv")
 
 dotenv.config()
-const wss = new WebSocketServer({ port: process.env.PORT||8080 });
 
-wss.on("connection", (ws)=>{
+const wss = new WebSocketServer({ port: process.env.PORT || 8080 })
 
-    ws.on("error", console.error);
+wss.on("connection", (ws) => {
+    ws.on("error", console.error)
 
-    ws.send("Mensagem enviada  Servidor")
-    ws.on("message", (data)=>{
-          console.log(data.toString())
-          wss.clients.forEach((client)=> client.send(data.toString()))
-          
+    ws.on("message", (data) => {
+        wss.clients.forEach((client) => client.send(data.toString()))
     })
 
-    console.log("Client connected")
+    console.log("client connected")
 })
-
